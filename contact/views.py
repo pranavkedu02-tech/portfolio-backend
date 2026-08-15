@@ -30,9 +30,6 @@ class ContactMessageCreateView(APIView):
                 status=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
 
-        # Send a thank-you confirmation email to the visitor.
-        # Wrapped separately so an email failure never blocks the
-        # successful save above — the message is already safely stored.
         self._send_thank_you_email(document["full_name"], document["email"])
 
         return Response(
@@ -55,7 +52,7 @@ Looking forward to connecting with you soon.
 
 Best regards,
 Pranav Khatavkar
-Full Stack Developer | Android Developer
+Full Stack Developer
 """
 
         try:
@@ -67,5 +64,4 @@ Full Stack Developer | Android Developer
                 fail_silently=False,
             )
         except Exception as e:
-            # Email is a nice-to-have, not critical — log and move on.
             print(f"WARNING: Failed to send thank-you email to {recipient_email}: {e}")

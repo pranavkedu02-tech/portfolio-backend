@@ -126,8 +126,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email configuration (Gmail SMTP) — used to send auto-reply
-# confirmation emails after a contact form submission.
+# Email configuration (Gmail SMTP) — LOCAL TESTING ONLY.
+# This will NOT work once deployed to Render — Render blocks
+# outbound SMTP ports (587/465/25). Use this only when running
+# python manage.py runserver on your own laptop.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
