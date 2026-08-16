@@ -57,7 +57,7 @@ Full Stack Developer
                 "https://api.brevo.com/v3/smtp/email",
                 headers={
                     "accept": "application/json",
-                    "api-key": settings.BREVO_API_KEY,
+                    "api-key": settings.BREVO_API_KEY.strip(),
                     "content-type": "application/json",
                 },
                 json={
