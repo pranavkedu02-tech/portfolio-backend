@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from django.core.mail import send_mail
+import requests
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -38,8 +38,6 @@ class ContactMessageCreateView(APIView):
         )
 
     def _send_thank_you_email(self, full_name, recipient_email):
-        subject = "Thank You for Reaching Out – Pranav Khatavkar"
-
         message = f"""Hi {full_name},
 
 Thank you for visiting my portfolio and taking the time to reach out — I really appreciate it.
@@ -54,14 +52,23 @@ Best regards,
 Pranav Khatavkar
 Full Stack Developer
 """
-
         try:
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[recipient_email],
-                fail_silently=False,
+            response = requests.post(
+                "https://api.brevo.com/v3/smtp/email",
+                headers={
+                    "accept": "application/json",
+                    "api-key": settings.BREVO_API_KEY,
+                    "content-type": "application/json",
+                },
+                json={
+                    "sender": {"name": "Pranav Khatavkar", "email": "khatavkarpranav75@gmail.com"},
+                    "to": [{"email": recipient_email, "name": full_name}],
+                    "subject": "Thank You for Reaching Out – Pranav Khatavkar",
+                    "textContent": message,
+                },
+                timeout=8,
             )
-        except Exception as e:
+            if response.status_code >= 400:
+                print(f"WARNING: Brevo email failed ({response.status_code}): {response.text}")
+        except requests.RequestException as e:
             print(f"WARNING: Failed to send thank-you email to {recipient_email}: {e}")

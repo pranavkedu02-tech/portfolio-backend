@@ -126,14 +126,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email configuration (Gmail SMTP) — LOCAL TESTING ONLY.
-# This will NOT work once deployed to Render — Render blocks
-# outbound SMTP ports (587/465/25). Use this only when running
-# python manage.py runserver on your own laptop.
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = f"Pranav Khatavkar <{EMAIL_HOST_USER}>"
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
