@@ -50,7 +50,7 @@ Looking forward to connecting with you soon.
 
 Best regards,
 Pranav Khatavkar
-Full Stack Developer
+Full Stack Developer | Android Developer
 """
         try:
             response = requests.post(
